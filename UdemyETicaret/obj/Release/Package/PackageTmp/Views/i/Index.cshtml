@@ -1,0 +1,81 @@
+﻿@model UdemyETicaret.Models.i.IndexModel
+@{
+    ViewBag.Title = "Index";
+    List<UdemyETicaret.DB.Categories> categories = new List<UdemyETicaret.DB.Categories>();
+    if (Model.Category != null)
+    {
+        categories.Add(Model.Category);
+        var parentcat = Model.Category.Categories2;
+        while (parentcat != null)
+        {
+            categories.Add(parentcat);
+            parentcat = parentcat.Categories2;
+        }
+    }
+}
+<div class="row">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("index", "i", new { id = 0 })">Ana Sayfa</a></li>
+            @for (int i = categories.Count - 1; i >= 0; i--)
+            {
+                if (i == 0)
+                {
+                    <li class="active">@categories[i].Name</li>
+                }
+                else
+                {
+                    <li><a href="@Url.Action("index","i",new { id=categories[i].Id })">@categories[i].Name</a></li>
+                }
+
+            }
+            @*<li class="active">Bilgisayar</li>*@
+        </ol>
+    </div>
+</div>
+<div class="row">
+    @foreach (var item in Model.Products)
+    {
+        @Html.Partial("ProductItem", item);
+    }
+
+</div>
+<div class="modal fade" id="productinfo" tabindex="-1" role="dialog" aria-labelledby="productinfo-label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="productinfo-label">Ürün Bilgisi</h4>
+            </div>
+            <div class="modal-body">
+                <p id="modalBodyP"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                <a href="~/i/AddBasket/Id" id="modelBasketHref" class="btn btn-success">
+                    <span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Sepete At
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function GetProductInfo(Id) {
+        $("#productinfo").modal("show");
+        $.ajax({
+            url: "/i/GetProductDes/" + Id,
+            method: "GET",
+            async: true,
+            success: function (data) {
+                $("#modalBodyP").text(data);
+                var newHref = $("#modelBasketHref").attr("href");
+                newHref = newHref.replace("/Id", "/" + Id);
+                $("#modelBasketHref").attr("href", newHref);
+            },
+            error: function (err) {
+                console.log("GetProductDes error", err);
+                $("#productinfo").modal("hide");
+            }
+        });
+    }
+</script>

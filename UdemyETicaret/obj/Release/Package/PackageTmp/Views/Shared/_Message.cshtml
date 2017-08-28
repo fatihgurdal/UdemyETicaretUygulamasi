@@ -1,0 +1,19 @@
+﻿@model UdemyETicaret.Models.Message.RenderMessageModel
+<li class="dropdown">
+    <a href="#"
+       class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+        <span class="glyphicon glyphicon-envelope"></span>&nbsp;Mesajlar
+
+        <span class="badge">@Model.Count</span>
+        <span class="caret"></span>
+    </a>
+
+    <ul class="dropdown-menu">
+        @foreach (var item in Model.Messages)
+        {
+            <li><a href="~/Message/MessageReplies/@item.Id">@item.Subject</a></li>
+        }
+        <li class="divider" role="separator"></li>
+        <li><a href="~/Message/i">Mesajlara Git</a></li>
+    </ul>
+</li>

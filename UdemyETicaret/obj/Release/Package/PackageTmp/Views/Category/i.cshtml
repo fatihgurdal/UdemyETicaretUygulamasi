@@ -1,0 +1,46 @@
+﻿@model IEnumerable<UdemyETicaret.DB.Categories>
+
+@{
+    ViewBag.Title = "Kategoriler";
+}
+
+<h2>Kategoriler</h2>
+
+<p>
+    @Html.ActionLink("Yeni Oluştur", "Edit")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Kategori Adı")
+        </th>
+        <th>
+            @Html.DisplayName("Üst Kategorisi")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Categories2.Name)
+        </td>
+        <td>
+            <a href="@Url.Action("Edit",new { id=item.Id })" class="btn btn-info btn-xs">Düzenle</a>
+
+            <button type="button" onclick="DeleteProduct('@Url.Action("Delete", new { id=item.Id })')" class="btn btn-danger btn-xs">Sil</button>
+        </td>
+    </tr>
+}
+
+</table>
+<script>
+    function DeleteProduct(url) {
+        if (confirm("Silmek İstediğine Emin Misin?")) {
+            location.href = url;
+        }
+    }
+</script>

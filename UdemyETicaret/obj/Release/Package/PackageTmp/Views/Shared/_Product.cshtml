@@ -1,0 +1,48 @@
+﻿@model UdemyETicaret.DB.Products
+@{
+    if (string.IsNullOrEmpty(Model.ProductImageName))
+    {
+        Model.ProductImageName = "http://placehold.it/200x200";
+    }
+}
+<div class="row">
+    <div class="col-md-4">
+        <br />
+        <center><img src="~/@Model.ProductImageName" class="img-responsive img-thumbnail" /></center>
+    </div>
+    <div class="col-md-8">
+
+        <div class="form-group">
+
+            <div class="col-md-6">
+                <h2>@Model.Name</h2>
+                <hr />
+            </div>
+            <div class="col-md-6 text-right">
+                <h2 class="text-danger">@Model.Price ₺</h2>
+                <hr />
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <p>@Model.Description</p>
+        </div>
+
+        <div class="form-group">
+            <span class="text-danger">Derecelendirme :&nbsp;&nbsp;&nbsp;</span>
+            <span class="text-warning">
+                @for (int i = 0; i < Model.StarPoint; i++)
+                {
+                    <span class="glyphicon glyphicon-star"></span>
+                }
+                @for (int i = 0; i < 5 - Model.StarPoint; i++)
+                {
+                    <span class="glyphicon glyphicon-star-empty"></span>
+                }
+                (@Model.StarGivenMemberCount)
+            </span>
+        </div>
+
+    </div>
+</div>

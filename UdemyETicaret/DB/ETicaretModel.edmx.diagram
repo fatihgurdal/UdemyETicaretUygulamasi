@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c73687b4ff3e404ca5b295a7abfddc92" Name="Diagram1">
+        <EntityTypeShape EntityType="UdemyETicaretDBModel.Comments" Width="1.5" PointX="3" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="UdemyETicaretDBModel.MessageReplies" Width="1.5" PointX="6" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="UdemyETicaretDBModel.OrderDetails" Width="1.5" PointX="5.25" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="UdemyETicaretDBModel.Products" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
+        <AssociationConnector Association="UdemyETicaretDBModel.FK_Comments_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="UdemyETicaretDBModel.FK_OrderDetails_Products" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="UdemyETicaretDBModel.Categories" Width="1.5" PointX="0.75" PointY="16.375" />
+        <AssociationConnector Association="UdemyETicaretDBModel.FK_Categories_Categories" />
+        <AssociationConnector Association="UdemyETicaretDBModel.FK_Products_Categories" />
+        <EntityTypeShape EntityType="UdemyETicaretDBModel.Addresses" Width="1.5" PointX="3" PointY="4.75" />
+        <EntityTypeShape EntityType="UdemyETicaretDBModel.Orders" Width="1.5" PointX="3" PointY="12.625" />
+        <AssociationConnector Association="UdemyETicaretDBModel.FK_OrderDetails_Orders" />
+        <EntityTypeShape EntityType="UdemyETicaretDBModel.Members" Width="1.5" PointX="0.75" PointY="6.125" />
+        <EntityTypeShape EntityType="UdemyETicaretDBModel.Messages" Width="1.5" PointX="3" PointY="0.75" />
+        <AssociationConnector Association="UdemyETicaretDBModel.FK_Addresses_Members" />
+        <AssociationConnector Association="UdemyETicaretDBModel.FK_Comments_Members" />
+        <AssociationConnector Association="UdemyETicaretDBModel.FK_MessageReplies_Members" />
+        <AssociationConnector Association="UdemyETicaretDBModel.FK_Messages_Members" />
+        <AssociationConnector Association="UdemyETicaretDBModel.FK_Orders_Members" />
+        <AssociationConnector Association="UdemyETicaretDBModel.FK_MessageReplies_Messages" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

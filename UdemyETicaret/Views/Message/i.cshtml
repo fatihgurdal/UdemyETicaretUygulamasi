@@ -1,0 +1,120 @@
+﻿@model UdemyETicaret.Models.Message.iModels
+@{
+    ViewBag.Title = "Mesajlar";
+    var currentUser = (UdemyETicaret.DB.Members)Session["LogonUser"];
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Mesajlar</h3>
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+
+        <table class="table table-condensed table-striped table-hover text-center">
+
+            <thead>
+                <tr>
+                    <!--th*4>{kolon adı}-->
+                    <th class="text-center"></th>
+                    <th class="text-center">Tarih</th>
+                    <th class="text-center">Kimden</th>
+                    <th class="text-center">Konu</th>
+                    <th class="text-center"></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <!--tr*4>(td>{10.02.2008})+(td>{muratbaseren})+(td>lorem3)+(td>button[class="btn btn-info btn-xs"]>span[class="glyphicon glyphicon-eye-open"]^button[class="btn btn-danger btn-xs"]>span[class="glyphicon glyphicon-trash"])-->
+                @foreach (var msj in Model.Messages)
+                {
+
+                    var user = msj.MessageReplies.OrderBy(x => x.AddedDate).FirstOrDefault().Members;
+
+                    <tr>
+                        <td>
+                            @if (msj.IsRead)
+                            {
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                            }
+                        </td>
+                        <td>@msj.AddedDate.ToShortDateString()</td>
+                        <td>
+                            @(string.Format("{0} {1} ({2})", user.Name, user.Surname, user.MemberType.ToString()))
+                        </td>
+                        <td>
+                            @msj.Subject
+                        </td>
+                        <td>
+                            <a href="~/Message/MessageReplies/@msj.Id" class="btn btn-info btn-xs">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                            </a>
+                            @if (user.Id == currentUser.Id)
+                            {
+                                <a href="~/Message/RemoveMessageReplies/@msj.Id" class="btn btn-danger btn-xs">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="text-right">
+                        <br /><br />
+                        <a href="#" data-toggle="modal" data-target="#messagebox" class="btn btn-success btn-sm">
+                            <span class="glyphicon glyphicon-plus"></span> Yeni Mesaj
+                        </a>
+                    </td>
+                </tr>
+            </tfoot>
+
+        </table>
+
+    </div>
+</div>
+@using (Html.BeginForm("SendMessage", "Message"))
+{
+    <div class="modal fade" id="messagebox" tabindex="-1" role="dialog" aria-labelledby="messagebox-label">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="messagebox-label">Yeni Mesaj</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <div>
+                            @Html.DropDownList("ToUserId", Model.Users, new { @class = "form-control" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.TextBox("Subject", "", new { placeholder = "Konu", @class = "form-control", required = "required" })
+
+                    </div>
+
+                    <div class="form-group">
+                        @Html.TextArea("MessageBody", "", new { placeholder = "Mesaj Metni", @class = "form-control", required = "required" })
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+
+                    <button type="submit" class="btn btn-success">
+                        <span class="glyphicon glyphicon-send"></span> Gönder
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

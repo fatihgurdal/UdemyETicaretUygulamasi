@@ -1,0 +1,97 @@
+﻿@model List<UdemyETicaret.Models.i.BasketModels>
+@{
+    ViewBag.Title = "Sepet";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Sepetiniz</h3>
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <small style="color:red;">@TempData["MyError"]</small>
+        @using (Html.BeginForm("Buy", "i"))
+        {
+            <table class="table table-condensed table-striped table-hover text-center">
+
+                <thead>
+                    <tr>
+                        <!--th*4>{kolon adı}-->
+                        <th class="text-center">Ürün Adı</th>
+                        <th class="text-center">Fiyat</th>
+                        <th class="text-center">Adet</th>
+                        <th class="text-center">Tutar</th>
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <!--tr*4>(td>lorem2)+(td>{10.00 ₺})+(td>{1})+(td>button.btn>span.glyphicon)-->
+                    @foreach (UdemyETicaret.Models.i.BasketModels item in Model)
+                {
+                        <tr>
+                            <td>@item.Product.Name</td>
+                            <td>@item.Product.Price ₺</td>
+                            <td>@item.Count</td>
+                            <td>@(item.Product.Price * item.Count)</td>
+                            <td>
+                                <a href="~/i/AddBasket/@item.Product.Id" class="btn btn-warning btn-xs">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </a>
+                                <a href="~/i/AddBasket/@item.Product.Id?remove=true" class="btn btn-info btn-xs">
+                                    <span class="glyphicon glyphicon-minus"></span>
+                                </a>
+                                &nbsp;|&nbsp;
+                                <a href="~/i/Product/@item.Product.Id" class="btn btn-info btn-xs">
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </a>
+                                <a href="~/i/RemoveBasket/@item.Product.Id" class="btn btn-danger btn-xs">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+                <tfoot>
+                    @if (ViewBag.CurrentAddresses != null && ((List<SelectListItem>)ViewBag.CurrentAddresses) != null)
+                    {
+                        <tr>
+                            <td colspan="2">
+                                @Html.Label("AddressId", "Adres Seçiniz")
+                            </td>
+                            <td colspan="4">
+                                @Html.DropDownList("Address", (List<SelectListItem>)ViewBag.CurrentAddresses, new { @class = "form-control" })
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td class="text-center text-danger">
+                            <h2>@ViewBag.TotalPrice ₺</h2> <span></span>
+                        </td>
+                        <td colspan="2" class="text-right">
+                            <br />
+                            <a href="~/i/RemoveBasket/0" class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-trash"></span> Sepeti Boşalt
+                            </a>
+                            <button type="submit" class="btn btn-success btn-sm">
+                                <span class="glyphicon glyphicon-send"></span> Satın Al
+                            </button>
+                        </td>
+                    </tr>
+                </tfoot>
+
+            </table>
+        }
+
+
+    </div>
+</div>

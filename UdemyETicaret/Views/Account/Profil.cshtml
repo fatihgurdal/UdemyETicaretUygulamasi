@@ -1,0 +1,127 @@
+﻿@model UdemyETicaret.Models.Account.ProfilModels
+
+@{
+    ViewBag.Title = string.Format("{0} {1}", Model.Members.Name, Model.Members.Surname);
+    Model.Members.ProfileImageName = string.IsNullOrEmpty(Model.Members.ProfileImageName) ? "images/account.png" : Model.Members.ProfileImageName;
+    var currentUser = ((UdemyETicaret.DB.Members)Session["LogonUser"]);
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Profil Sayfası</h2>
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <center><img src="~/@Model.Members.ProfileImageName" class="img-circle img-responsive img-thumbnail" /></center>
+    </div>
+    <div class="col-md-8 well">
+
+        <div class="form-group">
+
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 text-danger">Adı : </label>
+            <label class="col-md-10">@Model.Members.Name</label>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 text-danger">Soyadı : </label>
+            <label class="col-md-10">@Model.Members.Surname</label>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 text-danger">E-Mail : </label>
+            <label class="col-md-10">@Model.Members.Email</label>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 text-danger">Hakkında : </label>
+            <label class="col-md-10">&nbsp; @Model.Members.Bio</label>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 text-danger">Kayıt Tarihi : </label>
+            <label class="col-md-10">@Model.Members.AddedDate.ToShortDateString()</label>
+        </div>
+    </div>
+</div>
+@if (Session["LogonUser"] != null && (currentUser.Id == Model.Members.Id))
+{
+<div class="row">
+    <div class="col-md-10 col-md-offset-1 text-right">
+        @if (((int)currentUser.MemberType) > 3)
+        {
+            <a href="~/Category/i" class="btn btn-info">
+                <span class="glyphicon glyphicon-plus"></span> Kategoriler
+            </a>
+            <a href="~/Product/i" class="btn btn-info">
+                <span class="glyphicon glyphicon-plus"></span> Ürünler
+            </a>
+        }
+
+        <a href="~/Account/ProfilEdit" class="btn btn-warning">
+            <span class="glyphicon glyphicon-edit"></span> Düzenle
+        </a>
+
+        <a href="#" class="btn btn-danger">
+            <span class="glyphicon glyphicon-trash"></span> Sil
+        </a>
+    </div>
+    <div class="col-md-12">
+        &nbsp;
+    </div>
+</div>
+    if (Model.Addresses != null)
+    {
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-8">
+        <table class="table table-condensed table-striped table-hover text-center">
+
+            <thead>
+                <tr>
+                    <th class="text-center">Adres Adı</th>
+                    <th class="text-center" width="100"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Addresses)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>
+                            <a href="~/Account/Profil?ad=@item.Id.ToString()" class="btn btn-info btn-xs">
+                                <span class="glyphicon glyphicon-edit"></span>
+                            </a> &nbsp;
+                            <a href="~/Account/RemoveAddress/@item.Id.ToString()" class="btn btn-danger btn-xs">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @using (Html.BeginForm("Address", "Account"))
+        {
+            @Html.Hidden("Id", Model.CurrentAddress.Id.ToString())
+            <div class="form-group">
+                @Html.TextBox("Name", Model.CurrentAddress.Name, new { @class = "form-control", placeholder = "Adres Adı" })
+            </div>
+            <div class="form-group">
+                @Html.TextArea("AdresDescription", Model.CurrentAddress.AdresDescription, new { @class = "form-control", placeholder = "Adresiniz" })
+            </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-info">Kaydet</button>
+                    </div>
+        }
+    </div>
+</div>
+
+    }
+}
+
+

@@ -1,0 +1,21 @@
+﻿
+@helper MenuRecursive(List<UdemyETicaret.DB.Categories> cats)
+{
+
+    <ul class="dropdown-menu">
+        @foreach (var cat in cats)
+        {
+            if (cat.Categories1.Any())
+            {
+                <li class="dropdown-submenu">
+                    <a href="~/i/index/@cat.Id">@cat.Name</a>
+                    @MenuRecursive(cat.Categories1.ToList())
+                </li>
+            }
+            else
+            {
+                <li><a href="~/i/index/@cat.Id">@cat.Name</a></li>
+            }
+        }
+    </ul>
+}
