@@ -26,6 +26,7 @@ namespace UdemyETicaret
             {
                 From = new MailAddress("MailAdresiniz@gmail.com", "Fatih GÜRDAL - Eğitmen")
             };
+
             mail.To.Add(this.ToMail);
             mail.Subject = this.Subject;
             mail.Body = this.Body;
